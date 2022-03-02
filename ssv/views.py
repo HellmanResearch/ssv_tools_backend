@@ -40,7 +40,7 @@ class Result(dd_mixins.AggregationMixin,
         #     result = l_models.Result.objects.filter(owner_address=owner_address)
         # except l_models.Result.DoesNotExist:
         #     raise exceptions.NotFound(f"owner_address: {owner_address} not found")
-        is_correct = re.match("^0x[0-9a-fA-F]{40}", owner_address)
+        is_correct = re.match("^0x[0-9a-fA-F]{40}$", owner_address)
         if is_correct is None:
             raise exceptions.ParseError("wallet address error")
         qs = l_models.Result.objects.filter(owner_address=owner_address)
