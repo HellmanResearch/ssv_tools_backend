@@ -137,6 +137,8 @@ class GroupByMixin:
     def group_by(self, request, _value=[], _display_field=[], _func=[], _column=None, ordering=[]):
         if _func and not _column:
             raise exceptions.ParseError("_func和_column必须同时指定")
+        if len(_value) == 0:
+            raise exceptions.ParseError("_value can not empty")
         queryset = self.get_queryset()
         model = queryset.model
         field_names = hb_model.get_all_field_name(model)

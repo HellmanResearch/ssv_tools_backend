@@ -251,6 +251,13 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/tmp/AppSSVBackendCache',
+    }
+}
+
 CELERY_BROKER_URL = "amqp://dfinity_off_chain:dfinity_off_chain,1@192.168.1.128/dfinity_off_chain",
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_PROMETHEUS_PORT = 9112

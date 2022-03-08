@@ -4,7 +4,7 @@ import datetime
 from rest_framework import exceptions
 
 
-def parameter(name, _type=str, is_multi=False, default=None, choices=()):
+def parameter(name, _type=str, is_multi=False, default=None, choices=(), required=False):
     def decorator(func):
         def inner(self, request, *args, **kwargs):
             if name in request.query_params:
@@ -36,6 +36,9 @@ def parameter(name, _type=str, is_multi=False, default=None, choices=()):
                     kwargs[name] = value
             else:
                 kwargs[name] = default
+            if required:
+                if not kwargs[name]:
+                    raise exceptions.ParseError(f"Parameter {name} is required")
             response = func(self, request, *args, **kwargs)
             return response
         inner.__name__ = func.__name__

@@ -9,6 +9,9 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework import exceptions
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+
 
 import devops_django as l_devops_django
 from devops_django import mixins as dd_mixins
@@ -25,6 +28,7 @@ logger = logging.getLogger(__name__)
 
 class Result(dd_mixins.AggregationMixin,
              dd_mixins.CountMixin,
+             dd_mixins.GroupByMixin,
              viewsets.ReadOnlyModelViewSet):
     queryset = l_models.Result.objects.all()
     serializer_class = l_serializers.Result
@@ -32,9 +36,12 @@ class Result(dd_mixins.AggregationMixin,
     permission_classes = []
 
     filter_class = l_filters.Result
+    ordering_fields = "__all__"
+    search_fields = ["owner_address"]
+    group_by_fields = ["round", "owner_address"]
 
     @action(methods=["get"], detail=False, url_path="rewards")
-    @dd_decorators.parameter("owner_address", str)
+    @dd_decorators.parameter("owner_address", str, required=True)
     def rewards(self, request, owner_address, *args, **kwargs):
         # try:
         #     result = l_models.Result.objects.filter(owner_address=owner_address)
@@ -50,3 +57,8 @@ class Result(dd_mixins.AggregationMixin,
         data = address_reward.get_all_rewards()
         res_data = {"results": data}
         return Response(res_data)
+
+#     @action(methods=["get"], detail=False, url_path="group-by")
+# e    @de(cache_page(60*60*2))
+#     def group_by(self, request, *args, **kwargs):
+#         super().group_by(request, *args, **kwargs)
