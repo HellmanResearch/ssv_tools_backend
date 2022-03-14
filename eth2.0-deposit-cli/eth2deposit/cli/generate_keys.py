@@ -155,7 +155,7 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
     mnemonic_dir = Path(deposits_file).resolve().parent
     with open(f"{mnemonic_dir}/mnemonic-{prefix}.txt", "w") as f:
         f.write(mnemonic)
-    with open(f"{mnemonic_dir}/mnemonic_password-{prefix}.txt", "w") as f:
-        f.write(mnemonic_password)
+    with open(f"{mnemonic_dir}/keystore_password-{prefix}.txt", "w") as f:
+        f.write(keystore_password)
     click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)
     click.pause('\n\nPress any key.')

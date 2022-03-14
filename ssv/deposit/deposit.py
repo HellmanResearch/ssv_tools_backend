@@ -80,6 +80,7 @@ class DepositKey:
         return zip_file_path
 
     def run_cmd(self, cmd, timeout=30):
+        logger.info(f"run_cmd: {cmd}")
         env = os.environ.copy()
         env["PYTHONPATH"] = self.deposit_project_path
         try:
@@ -89,6 +90,7 @@ class DepositKey:
             err_msg = f"timeout ({timeout}s)"
             logger.debug(err_msg)
             raise exc
+        logger.info(f"cp.returncode: {cp.returncode} cp.stdout: {cp.stdout} cp.stderr: {cp.stderr}")
         if cp.returncode != 0:
             err_msg = f"run cmd: {cmd} failed, stdout: {cp.stdout} stderr: {cp.stderr}"
             logger.debug(err_msg)

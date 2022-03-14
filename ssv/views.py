@@ -75,7 +75,9 @@ class Depositkey(viewsets.ViewSet):
         dir_name = l_random.get_dir_name()
         now = datetime.datetime.now()
         timestamp = now.timestamp()
-        dir_name = "deposit_" + (str(timestamp)) + dir_name
+        timestamp_str = str(timestamp)
+        timestamp_str = timestamp_str.replace(".", "_")
+        dir_name = "deposit_" + timestamp_str + "_" + dir_name
         deposit_key = l_deposit.DepositKey(dir_name)
         try:
             deposit_key.create()
