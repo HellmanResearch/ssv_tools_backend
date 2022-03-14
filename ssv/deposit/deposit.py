@@ -42,6 +42,17 @@ class DepositKey:
         with open(f"{self.full_path}/validator_keys/hex_data.txt", "w") as f:
             f.write(hex_data)
 
+    def get_keystore_password(self):
+        file_name_list = os.listdir(os.path.join(self.full_path, "validator_keys"))
+        password_file_name_list = [item for item in file_name_list if item.startswith("keystore_password")]
+        if len(password_file_name_list) != 1:
+            raise Exception("len(password_file_name_list) != 1:")
+        password_file_name = password_file_name_list[0]
+        password_file_path = os.path.join(self.full_path, "validator_keys", password_file_name)
+        with open(password_file_path) as f:
+            content = f.read()
+        return content
+
     def get_hex(self):
         # deposit_file_path = sys.argv[1]
         validator_keys_path = os.path.join(self.full_path, "validator_keys")

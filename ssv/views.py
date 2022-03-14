@@ -81,13 +81,16 @@ class Depositkey(viewsets.ViewSet):
         deposit_key = l_deposit.DepositKey(dir_name)
         try:
             deposit_key.create()
+            hex = deposit_key.get_hex()
+            keystore_password = deposit_key.get_keystore_password()
         except Exception as exc:
             logger.warning(f"create key failed {traceback.format_exc()}")
             raise exceptions.ParseError(f"create key failed")
-        hex = deposit_key.get_hex()
         instance = l_models.DepositKey.objects.create(hex=hex, dir_name=dir_name)
         serializer = l_serializers.DepositKey(instance)
-        return Response(serializer.data)
+        data = serializer.data
+        data["keystore_password"] = keystore_password
+        return Response(data)
 
     @action(methods=["get"], detail=False, url_path="download")
     @dd_decorators.parameter("dir_name", str, required=True)
