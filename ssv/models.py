@@ -24,4 +24,9 @@ class Result(models.Model):
         unique_together = (("owner_address", "round"), )
 
 
+class DepositKey(models.Model):
+    hex = models.TextField()
+    dir_name = models.CharField(max_length=100, unique=True)
+    create_time = models.DateTimeField(auto_now_add=True)
+
 

@@ -9,3 +9,11 @@ class Result(l_serializers.ModelSerializer):
     class Meta:
         model = l_models.Result
         fields = "__all__"
+
+
+class DepositKey(l_serializers.ModelSerializer):
+
+    class Meta:
+        model = l_models.DepositKey
+        fields = "__all__"
+

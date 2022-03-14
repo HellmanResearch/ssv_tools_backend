@@ -165,10 +165,10 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'django.server',
         },
-        'ccc': {
+        'ssv': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'logs/ccc.log',
+            'filename': 'logs/ssv.log',
             'maxBytes': 1024 * 1024 * 20,
             'backupCount': 5,
             'encoding': 'utf-8',
@@ -217,8 +217,8 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
-        'ccc': {
-            'handlers': ['ccc'],
+        'ssv': {
+            'handlers': ['ssv'],
             'level': 'DEBUG',
             'propagate': False,
         },
@@ -258,22 +258,22 @@ CACHES = {
     }
 }
 
-CELERY_BROKER_URL = "amqp://dfinity_off_chain:dfinity_off_chain,1@192.168.1.128/dfinity_off_chain",
-CELERY_RESULT_BACKEND = "django-db"
-CELERY_PROMETHEUS_PORT = 9112
+# CELERY_BROKER_URL = "amqp://dfinity_off_chain:dfinity_off_chain,1@192.168.1.128/dfinity_off_chain",
+# CELERY_RESULT_BACKEND = "django-db"
+# CELERY_PROMETHEUS_PORT = 9112
 
-DFINITY_NETWORK = "ic"
-DFINITY_NETWORK_ORIGIN = "https://ic0.app"
-DFINITY_WICP_CANISTER_ID = "wiasx-2yaaa-aaaai-aa2wq-cai"
-DFINITY_WICP_STORAGE_CANISTER_ID = "j5d6o-3iaaa-aaaah-qccra-cai"
-DFINITY_ZOMBIE_CANISTER_ID = "46emz-giaaa-aaaah-qcg4q-cai"
-DFINITY_ZOMBIE_STORAGE_ID = "4xhhf-qaaaa-aaaah-qcg5a-cai"
-DFINITY_PAGE_SIZE = 50
-DFINITY_PROJECT_PATH = "/Users/mmt/buf/dfinity_test"
-DFINITY_CALL_WICP_IDENTITY = "wicp_onwer"
-DFINITY_CALL_WICP_STORAGE_IDENTITY = "CCCAphlaOwner"
-DFINITY_CALL_ZOMBIE_IDENTITY = "zombie_test_default"
-DFINITY_CALL_ZOMBIE_STORAGE_IDENTITY = "zombie_test_default"
+# DFINITY_NETWORK = "ic"
+# DFINITY_NETWORK_ORIGIN = "https://ic0.app"
+# DFINITY_WICP_CANISTER_ID = "wiasx-2yaaa-aaaai-aa2wq-cai"
+# DFINITY_WICP_STORAGE_CANISTER_ID = "j5d6o-3iaaa-aaaah-qccra-cai"
+# DFINITY_ZOMBIE_CANISTER_ID = "46emz-giaaa-aaaah-qcg4q-cai"
+# DFINITY_ZOMBIE_STORAGE_ID = "4xhhf-qaaaa-aaaah-qcg5a-cai"
+# DFINITY_PAGE_SIZE = 50
+# DFINITY_PROJECT_PATH = "/Users/mmt/buf/dfinity_test"
+# DFINITY_CALL_WICP_IDENTITY = "wicp_onwer"
+# DFINITY_CALL_WICP_STORAGE_IDENTITY = "CCCAphlaOwner"
+# DFINITY_CALL_ZOMBIE_IDENTITY = "zombie_test_default"
+# DFINITY_CALL_ZOMBIE_STORAGE_IDENTITY = "zombie_test_default"
 
 
 

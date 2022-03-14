@@ -12,5 +12,6 @@ router = routers.DefaultRouter(trailing_slash=False)
 
 # router.register("results", viewset=l_views.Result, cache_seconds=60*10)
 router.register("results", viewset=l_views.Result)
+router.register("deposit-key", viewset=l_views.Depositkey)
 
 urlpatterns = router.urls

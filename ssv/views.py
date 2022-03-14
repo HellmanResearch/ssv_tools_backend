@@ -1,7 +1,11 @@
 import os
 import re
 import logging
+import datetime
 import threading
+import traceback
+
+from django.http import FileResponse
 
 from rest_framework import viewsets
 from rest_framework import mixins
@@ -11,7 +15,8 @@ from rest_framework.decorators import action
 from rest_framework import exceptions
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-
+from .deposit import random as l_random
+from .deposit import deposit as l_deposit
 
 import devops_django as l_devops_django
 from devops_django import mixins as dd_mixins
@@ -57,6 +62,41 @@ class Result(dd_mixins.AggregationMixin,
         data = address_reward.get_all_rewards()
         res_data = {"results": data}
         return Response(res_data)
+
+
+class Depositkey(viewsets.ViewSet):
+    queryset = l_models.DepositKey.objects.all()
+    serializer_class = l_serializers.DepositKey
+
+    permission_classes = []
+
+    @action(methods=["post"], detail=False, url_path="new")
+    def c_new(self, request, *args, **kwargs):
+        dir_name = l_random.get_dir_name()
+        now = datetime.datetime.now()
+        timestamp = now.timestamp()
+        dir_name = "deposit_" + (str(timestamp)) + dir_name
+        deposit_key = l_deposit.DepositKey(dir_name)
+        try:
+            deposit_key.create()
+        except Exception as exc:
+            logger.warning(f"create key failed {traceback.format_exc()}")
+            raise exceptions.ParseError(f"create key failed")
+        hex = deposit_key.get_hex()
+        instance = l_models.DepositKey.objects.create(hex=hex, dir_name=dir_name)
+        serializer = l_serializers.DepositKey(instance)
+        return Response(serializer.data)
+
+    @action(methods=["get"], detail=False, url_path="download")
+    @dd_decorators.parameter("dir_name", str, required=True)
+    def c_download(self, request, dir_name, *args, **kwargs):
+        deposit_key = l_deposit.DepositKey(dir_name)
+        zip_file_path = deposit_key.create_zip()
+        # file_name = deposit_key.get_zip_file_path
+        file = open(zip_file_path, "rb")
+        response = FileResponse(file)
+        return response
+
 
 #     @action(methods=["get"], detail=False, url_path="group-by")
 # e    @de(cache_page(60*60*2))
