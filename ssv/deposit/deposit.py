@@ -36,7 +36,7 @@ class DepositKey:
             raise Exception(f"{self.full_path} has exist")
         os.makedirs(self.full_path)
         password = l_random.get_password()
-        cmd = f"cd {self.deposit_project_path}; python3 {self.deposit_file_path} new-mnemonic --num_validators 1 --chain prater --keystore_password {password}1 --folder {self.full_path}"
+        cmd = f"cd {self.deposit_project_path}; ../../venv/bin/python3 {self.deposit_file_path} new-mnemonic --num_validators 1 --chain prater --keystore_password {password}1 --folder {self.full_path}"
         self.run_cmd(cmd, timeout=20)
         hex_data = self.get_hex()
         with open(f"{self.full_path}/validator_keys/hex_data.txt", "w") as f:
