@@ -35,23 +35,30 @@ class AddressReward:
             "reward_verified_operator": "Verified operators alloc",
         }
 
+        abusers_distribution_amount = 0.354282327
+
         show_data = []
         for key, value in title_map.items():
-            show_data_item = {"title": value, "key": key}
-            if key.startswith("_"):
+            show_data_item = {"title": value, "key": key, "abusers_distribution": ""}
+            if key.startswith("_1"):
+                show_data_item["round1"] = "Abusers Distribution"
                 show_data.append(show_data_item)
                 continue
             for res_data_item in serializer.data:
                 show_data_item[res_data_item["round"]] = res_data_item[key]
                 # show_data_item["round_total_reward"] = sum([res_data_item[key] for key in reward_field_list])
+            if key == "reward_validators":
+                show_data_item["abusers_distribution"] = abusers_distribution_amount
             show_data.append(show_data_item)
 
-        round_reward_item = {"title": "Total (Round)"}
+        round_reward_item = {"title": "Total (Round)", "abusers_distribution": abusers_distribution_amount}
         total_reward = 0
         for res_data_item in serializer.data:
             round_reward = sum([res_data_item[key] for key in reward_field_list])
             round_reward_item[res_data_item["round"]] = round_reward
             total_reward += round_reward
+
+        total_reward += abusers_distribution_amount
 
         show_data.append(round_reward_item)
         # total_reward = sum(round_reward.values())
