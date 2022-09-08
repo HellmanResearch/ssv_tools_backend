@@ -27,8 +27,8 @@ class DepositKey:
         # dir_name = l_random.get_dir_name()
         # self.dir_name = "deposit_" + dir_name
         # self.key_dir = os.path.join(self.key_base_dir, self.dir_name)
-        self.deposit_file_path = os.path.join(settings.BASE_DIR, "eth2.0-deposit-cli/eth2deposit/deposit.py")
-        self.deposit_project_path = os.path.join(settings.BASE_DIR, "eth2.0-deposit-cli")
+        self.deposit_file_path = os.path.join(settings.BASE_DIR, "staking-deposit-cli/staking_deposit/deposit.py")
+        self.deposit_project_path = os.path.join(settings.BASE_DIR, "staking-deposit-cli")
         self.full_path = os.path.join(self.key_base_dir, self.key_dir)
 
     def create(self):
@@ -36,7 +36,7 @@ class DepositKey:
             raise Exception(f"{self.full_path} has exist")
         os.makedirs(self.full_path)
         password = l_random.get_password()
-        cmd = f"cd {self.deposit_project_path}; ../../venv/bin/python3 {self.deposit_file_path} new-mnemonic --num_validators 1 --chain prater --keystore_password {password}1 --folder {self.full_path}"
+        cmd = f"cd {self.deposit_project_path}; ../../venv/bin/python3 {self.deposit_file_path} new-mnemonic --num_validators 1 --chain prater --keystore_password {password} --folder {self.full_path}"
         self.run_cmd(cmd, timeout=20)
         hex_data = self.get_hex()
         with open(f"{self.full_path}/validator_keys/hex_data.txt", "w") as f:
